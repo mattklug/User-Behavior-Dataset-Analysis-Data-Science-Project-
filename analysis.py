@@ -43,7 +43,7 @@ print(df.columns)
 
 
 # View a histogram displaying how the column 'App Usage Time (min/day)' is distributed across the dataset.
-# Right skewed, mean of 271, as app usage duration increases instances decline.
+# Right skewed, average of 271.13 minutes of app usage a day, as minutes increase instances decline.
 
 plt.figure(figsize=(15, 7))
 sns.histplot(df['App Usage Time (min/day)'], kde=True, bins=30)
@@ -61,7 +61,7 @@ plt.show()
 
 
 # View a histogram displaying how the column 'Screen On Time (hours/day)' is distributed across the dataset.
-# Right skewed, mean of 5.27, as screen time increases instances decline.
+# Right skewed, average of 5.27 hours of screen time a day, as hours increase instances decline.
 
 plt.figure(figsize=(15, 7))
 sns.histplot(df['Screen On Time (hours/day)'], kde=True, bins=30)
@@ -79,7 +79,7 @@ plt.show()
 
 
 # View a histogram displaying how the column 'Data Usage (MB/day)' is distributed across the dataset.
-# Right skewed, mean of 929.74, as data usage increases instances decline.
+# Right skewed, average of 929.74 MB of data usage a day, as MB increases instances decline.
 
 plt.figure(figsize=(15, 7))
 sns.histplot(df['Data Usage (MB/day)'], kde = True, bins = 30)
@@ -97,7 +97,7 @@ plt.show()
 
 
 # View a histogram dispalying how the column 'Battery Drain (mAh/day)' is distibuted across the dataset.
-# Slightly right skewed, mean of 1525 mAh/day, as battery drain in a day increases, instances decline.
+# Slightly right skewed, average of 1525.16 mAhs battery drain a day, as mAH increases instances decline.
 
 plt.figure(figsize=(15, 7))
 sns.histplot(df['Battery Drain (mAh/day)'], kde = True, bins = 30)
