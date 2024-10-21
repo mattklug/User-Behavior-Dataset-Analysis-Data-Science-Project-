@@ -2,7 +2,7 @@ Mobile User Behavior Analysis
 
 Introduction --
 
-This project focuses on understanding how people use their mobile devices and applications. By analyzing data on app usage, screen time, data consumption, and battery drain, we aim to answer key questions like: What factors influence mobile app usage? How do age and gender impact phone usage patterns? Using data science methods, we will explore these trends and develop models to predict user behavior and help improve mobile experiences.
+This project focuses on understanding how people use their mobile devices and applications. By analyzing data on app usage, screen time, data consumption, and battery drain, we aim to answer key questions like: What factors influence mobile app usage? How do age and device type impact phone usage patterns? Using data science methods, we will explore these trends and develop models to predict user behavior and help improve mobile experiences.
 
 Data Source --
 
