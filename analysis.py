@@ -5,11 +5,11 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.model_selection import cross_val_score
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.metrics import mean_squared_error, r2_score, classification_report, accuracy_score
+from sklearn.preprocessing import PolynomialFeatures, StandardScaler
+
 
 # Load the CSV file (Dataset)
 df = pd.read_csv('user_behavior_dataset.csv')
@@ -210,7 +210,7 @@ df = pd.read_csv('user_behavior_dataset.csv')
 # print(f"R-Squared: {r2}")
 
 
-# Below has our best fit model yet, check r2 and mse, this is for predicting battery drain
+# This is for predicting battery drain
 # Define features and target
 # X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
 # y = df['Battery Drain (mAh/day)']
@@ -240,33 +240,139 @@ df = pd.read_csv('user_behavior_dataset.csv')
 # print("Cross-Validation R-Squared Scores:", cv_scores)
 # print("Average R-Squared:", np.mean(cv_scores))
 
+
+# Below is predicting battery drain, using our polynomial model
 # Define features and target variable for training
-X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
-y = df['Battery Drain (mAh/day)']
+# X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
+# y = df['Battery Drain (mAh/day)']
 
 # Transform features with polynomial expansion and fit the model
-poly = PolynomialFeatures(degree=2, include_bias=False)
-X_poly = poly.fit_transform(X)
-X_train, X_test, y_train, y_test = train_test_split(X_poly, y, test_size=0.3, random_state=42)
-model = LinearRegression().fit(X_train, y_train)
+# poly = PolynomialFeatures(degree=2, include_bias=False)
+# X_poly = poly.fit_transform(X)
+# X_train, X_test, y_train, y_test = train_test_split(X_poly, y, test_size=0.3, random_state=42)
+# model = LinearRegression().fit(X_train, y_train)
 
 # Sample data for prediction
-new_data = pd.DataFrame({
-    'App Usage Time (min/day)': [393, 268, 154], 
-    'Screen On Time (hours/day)': [6.4, 4.7, 4.0],
-    'Data Usage (MB/day)': [1122, 944, 322],
-    'Number of Apps Installed': [67, 42, 32]
-})
+# new_data = pd.DataFrame({
+    #  'App Usage Time (min/day)': [393, 268, 154], 
+    #  'Screen On Time (hours/day)': [6.4, 4.7, 4.0],
+    #  'Data Usage (MB/day)': [1122, 944, 322],
+    #  'Number of Apps Installed': [67, 42, 32]
+# })
 
 # Transform new data using the same polynomial transformer
-new_data_poly = poly.transform(new_data)
-predictions = model.predict(new_data_poly)
+# new_data_poly = poly.transform(new_data)
+# predictions = model.predict(new_data_poly)
 
 # Combine samples with predictions for display
-new_data['Predicted Battery Drain (mAh/day)'] = predictions
-for i, row in new_data.iterrows():
-    print(f"Sample {i + 1} - App Usage: {row['App Usage Time (min/day)']} min, "
-          f"Screen Time: {row['Screen On Time (hours/day)']} hr, "
-          f"Data Usage: {row['Data Usage (MB/day)']} MB, "
-          f"Apps Installed: {row['Number of Apps Installed']}, "
-          f"Predicted Drain: {row['Predicted Battery Drain (mAh/day)']:.2f} mAh")
+# new_data['Predicted Battery Drain (mAh/day)'] = predictions
+# for i, row in new_data.iterrows():
+    # print(f"Sample {i + 1} - App Usage: {row['App Usage Time (min/day)']} min, "
+          # f"Screen Time: {row['Screen On Time (hours/day)']} hr, "
+          # f"Data Usage: {row['Data Usage (MB/day)']} MB, "
+          # f"Apps Installed: {row['Number of Apps Installed']}, "
+          # f"Predicted Drain: {row['Predicted Battery Drain (mAh/day)']:.2f} mAh")
+
+# Now we will do the same as previously, but this time prediting data usage
+# Define features (X) and target (y) for predicting Data Usage
+# X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Battery Drain (mAh/day)', 'Number of Apps Installed']]
+# y = df['Data Usage (MB/day)']
+# Transform features with polynomial expansion
+# poly = PolynomialFeatures(degree=2, include_bias=False)
+# X_poly = poly.fit_transform(X)
+# Split into training and testing sets
+# X_train, X_test, y_train, y_test = train_test_split(X_poly, y, test_size=0.3, random_state=42)
+# Initialize and train the regression model
+# model = LinearRegression()
+# model.fit(X_train, y_train)
+# Make predictions on test data to evaluate the model
+# y_pred = model.predict(X_test)
+# mse = np.sqrt(mean_squared_error(y_test, y_pred))
+# r2 = r2_score(y_test, y_pred)
+# avgDataUsage = df['Data Usage (MB/day)'].mean()
+# print(f"Mean Squared Error for Data Usage Prediction: {mse:.2f}")
+# print(f"R-Squared for Data Usage Prediction: {r2:.2f}")
+# print(f"This is the average data usage per instance: {avgDataUsage:.2f}")
+# Sample data to predict Data Usage
+# new_data = pd.DataFrame({
+    # 'App Usage Time (min/day)': [393, 268, 154], 
+    # 'Screen On Time (hours/day)': [6.4, 4.7, 4.0],
+    # 'Battery Drain (mAh/day)': [2012, 1517, 959],
+    # 'Number of Apps Installed': [67, 42, 32]
+# })
+# Transform new data using the same polynomial transformer
+# new_data_poly = poly.transform(new_data)
+# data_usage_predictions = model.predict(new_data_poly)
+# Combine samples with predictions for display
+# new_data['Predicted Data Usage (MB/day)'] = data_usage_predictions
+# for i, row in new_data.iterrows():
+    # print(f"Sample {i + 1} - App Usage: {row['App Usage Time (min/day)']} min, "
+          # f"Screen Time: {row['Screen On Time (hours/day)']} hr, "
+          # f"Battery Drain: {row['Battery Drain (mAh/day)']} mAh, "
+          # f"Apps Installed: {row['Number of Apps Installed']}, "
+          # f"Predicted Data Usage: {row['Predicted Data Usage (MB/day)']:.2f} MB")
+
+# Predict screen-on-time below using linear regression
+# Define features (X) and target (y) for predicting Screen On Time
+X = df[['App Usage Time (min/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
+y = df['Screen On Time (hours/day)']
+
+# Split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Initialize and fit the linear regression model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+# Predict on test data
+y_pred = model.predict(X_test)
+
+# Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+rmse = np.sqrt(mse)
+r2 = r2_score(y_test, y_pred)
+
+# Display results
+print(f"Mean Squared Error (MSE): {mse:.2f}")
+print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
+print(f"R-Squared: {r2:.2f}")
+screenOnTime = df['Screen On Time (hours/day)'].mean()
+print(f"Average Screen-On-Time: {screenOnTime:.2f}")
+# Display sample predictions
+test_results = X_test.copy()
+test_results['Actual Screen On Time (hours/day)'] = y_test
+test_results['Predicted Screen On Time (hours/day)'] = y_pred
+
+print("\nSample Predictions:")
+print(test_results[['App Usage Time (min/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)', 'Number of Apps Installed', 'Actual Screen On Time (hours/day)', 'Predicted Screen On Time (hours/day)']].head())
+# Now, lets predict usage behavior class using logistic regression
+# Define the features and target
+# X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)']]
+# y = df['User Behavior Class']
+
+# Split data into training and testing sets
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Scale the data
+# scaler = StandardScaler()
+# X_train = scaler.fit_transform(X_train)
+# X_test = scaler.transform(X_test)
+# Initialize and train the logistic regression model
+# model = LogisticRegression(max_iter=1000, random_state=42)
+# model.fit(X_train, y_train)
+
+# Make predictions
+# y_pred = model.predict(X_test)
+# Print the accuracy
+# accuracy = accuracy_score(y_test, y_pred)
+# print(f"Accuracy: {accuracy:.2f}")
+
+# Print the classification report
+# print("Classification Report:")
+# print(classification_report(y_test, y_pred))
+
+# PERFECT EVERYTHING ABOVE, testing for overfitting and testing on new data to make sure.
+# -- If yall read this I messed up and forgot that "usage behavior class"'s definition at 
+# -- the top states it's derived off patterns. So I predicting a predefined classification,
+# -- model has everything it needs to predict it perfectly. My fault.
+
