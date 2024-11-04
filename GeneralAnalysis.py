@@ -158,16 +158,15 @@ df = pd.read_csv('user_behavior_dataset.csv')
 # View scatterplots between every numeric feature combination to see linear relationships.
 # This is very useful to see if there is consistent corrrelation betweeen features.
 
-
 # Create scatterplot matrix for all numeric variables.
 # Matrix is a pain in the ass to fit-to-screen for viewing, idk how to fix.
-
 # Select only numeric columns for scatterplots.
 # numeric_df = df.select_dtypes(include=[np.number])
 # Increase the size of each plot in the pairplot.
 # Adjust the aspect ratio (width-to-height ratio) to give more horizontal space.
 #sns.pairplot(numeric_df, height=3, aspect=1)
 #plt.show()
+
 
 # View a heatmap displaying correlation between every pair of numeric variables. Values range -1 to 1.
 # (Noted Relationships) Analysis --
@@ -179,10 +178,8 @@ df = pd.read_csv('user_behavior_dataset.csv')
 # Higher Data Usage          -> higher user behavior class, #apps installed, battery drain, screen time, app usage.
 # Age                        -> Suprisingly no correlation vs any other numerical feature.
 # Higher user behavior class -> higher data usage, #apps installed, battery drain, screen time, app usage.
-
 # Create the correlation matrix for numeric variables
 # corr_matrix = numeric_df.corr()
-
 # Visualize the correlation matrix using a heatmap
 # plt.figure(figsize=(10, 6))  
 # sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
@@ -234,7 +231,6 @@ df = pd.read_csv('user_behavior_dataset.csv')
 # Display
 # print(f"Mean Squared Error with Polynomial Features: {mse}")
 # print(f"R-Squared with Polynomial Features: {r2}")
-
 # Perform 5-fold cross-validation on the training set and get R-Squared scores
 # cv_scores = cross_val_score(model, X_train, y_train, cv=5, scoring='r2')
 # print("Cross-Validation R-Squared Scores:", cv_scores)
@@ -245,13 +241,11 @@ df = pd.read_csv('user_behavior_dataset.csv')
 # Define features and target variable for training
 # X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
 # y = df['Battery Drain (mAh/day)']
-
 # Transform features with polynomial expansion and fit the model
 # poly = PolynomialFeatures(degree=2, include_bias=False)
 # X_poly = poly.fit_transform(X)
 # X_train, X_test, y_train, y_test = train_test_split(X_poly, y, test_size=0.3, random_state=42)
 # model = LinearRegression().fit(X_train, y_train)
-
 # Sample data for prediction
 # new_data = pd.DataFrame({
     #  'App Usage Time (min/day)': [393, 268, 154], 
@@ -259,11 +253,9 @@ df = pd.read_csv('user_behavior_dataset.csv')
     #  'Data Usage (MB/day)': [1122, 944, 322],
     #  'Number of Apps Installed': [67, 42, 32]
 # })
-
 # Transform new data using the same polynomial transformer
 # new_data_poly = poly.transform(new_data)
 # predictions = model.predict(new_data_poly)
-
 # Combine samples with predictions for display
 # new_data['Predicted Battery Drain (mAh/day)'] = predictions
 # for i, row in new_data.iterrows():
@@ -272,6 +264,7 @@ df = pd.read_csv('user_behavior_dataset.csv')
           # f"Data Usage: {row['Data Usage (MB/day)']} MB, "
           # f"Apps Installed: {row['Number of Apps Installed']}, "
           # f"Predicted Drain: {row['Predicted Battery Drain (mAh/day)']:.2f} mAh")
+
 
 # Now we will do the same as previously, but this time prediting data usage
 # Define features (X) and target (y) for predicting Data Usage
@@ -312,39 +305,37 @@ df = pd.read_csv('user_behavior_dataset.csv')
           # f"Apps Installed: {row['Number of Apps Installed']}, "
           # f"Predicted Data Usage: {row['Predicted Data Usage (MB/day)']:.2f} MB")
 
+
 # Predict screen-on-time below using linear regression
 # Define features (X) and target (y) for predicting Screen On Time
-X = df[['App Usage Time (min/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
-y = df['Screen On Time (hours/day)']
-
+# X = df[['App Usage Time (min/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
+# y = df['Screen On Time (hours/day)']
 # Split data into train and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 # Initialize and fit the linear regression model
-model = LinearRegression()
-model.fit(X_train, y_train)
-
+# model = LinearRegression()
+# model.fit(X_train, y_train)
 # Predict on test data
-y_pred = model.predict(X_test)
-
+# y_pred = model.predict(X_test)
 # Evaluate the model
-mse = mean_squared_error(y_test, y_pred)
-rmse = np.sqrt(mse)
-r2 = r2_score(y_test, y_pred)
-
+# mse = mean_squared_error(y_test, y_pred)
+# rmse = np.sqrt(mse)
+# r2 = r2_score(y_test, y_pred)
 # Display results
-print(f"Mean Squared Error (MSE): {mse:.2f}")
-print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
-print(f"R-Squared: {r2:.2f}")
-screenOnTime = df['Screen On Time (hours/day)'].mean()
-print(f"Average Screen-On-Time: {screenOnTime:.2f}")
+# print(f"Mean Squared Error (MSE): {mse:.2f}")
+# print(f"Root Mean Squared Error (RMSE): {rmse:.2f}")
+#  print(f"R-Squared: {r2:.2f}")
+# screenOnTime = df['Screen On Time (hours/day)'].mean()
+# print(f"Average Screen-On-Time: {screenOnTime:.2f}")
 # Display sample predictions
-test_results = X_test.copy()
-test_results['Actual Screen On Time (hours/day)'] = y_test
-test_results['Predicted Screen On Time (hours/day)'] = y_pred
+# test_results = X_test.copy()
+# test_results['Actual Screen On Time (hours/day)'] = y_test
+# test_results['Predicted Screen On Time (hours/day)'] = y_pred
+# print("\nSample Predictions:")
+# print(test_results[['App Usage Time (min/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)', 'Number of Apps Installed', 'Actual Screen On Time (hours/day)', 'Predicted Screen On Time (hours/day)']].head())
+# Well fit model above
 
-print("\nSample Predictions:")
-print(test_results[['App Usage Time (min/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)', 'Number of Apps Installed', 'Actual Screen On Time (hours/day)', 'Predicted Screen On Time (hours/day)']].head())
+
 # Now, lets predict usage behavior class using logistic regression
 # Define the features and target
 # X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)']]
