@@ -13,6 +13,7 @@ from sklearn.metrics import mean_squared_error, r2_score, classification_report,
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 
 df = pd.read_csv("user_behavior_dataset.csv")
+
 # Linear Regression for App Usage Time Prediction
 X = df[['Screen On Time (hours/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
 y = df['App Usage Time (min/day)']
@@ -23,7 +24,7 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"App Usage Time Prediction - MSE: {mse:.2f}, RMSE: {np.sqrt(mse):.2f}, R-Squared: {r2:.2f}")
-# Residual Analysis for Model Improvement Insight
+# Residual Analysis for App Usage Time
 residuals = y_test - y_pred
 print("\nResiduals Analysis (App Usage Time Prediction):")
 print(residuals.describe())
@@ -32,7 +33,6 @@ plt.title("Residuals Distribution for App Usage Time Prediction")
 plt.xlabel("Residuals")
 plt.ylabel("Frequency")
 plt.show()
-
 
 # Linear Regression for Battery Drain Prediction
 X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
@@ -46,7 +46,7 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"Battery Drain Prediction - MSE: {mse:.2f}, R-Squared: {r2:.2f}")
-# Residual Analysis for Model Improvement Insight
+# Residual Analysis for Battery Drain
 residuals = y_test - y_pred
 print("\nResiduals Analysis (Battery Drain Prediction):")
 print(residuals.describe())
@@ -55,7 +55,6 @@ plt.title("Residuals Distribution for Battery Drain Prediction")
 plt.xlabel("Residuals")
 plt.ylabel("Frequency")
 plt.show()
-
 
 # Linear Regression for Data Usage Prediction
 X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Battery Drain (mAh/day)', 'Number of Apps Installed']]
@@ -68,7 +67,15 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"Data Usage Prediction - MSE: {mse:.2f}, R-Squared: {r2:.2f}")
-
+# Residual Analysis for Data Usage
+residuals = y_test - y_pred
+print("\nResiduals Analysis (Data Usage Prediction):")
+print(residuals.describe())
+sns.histplot(residuals, kde=True)
+plt.title("Residuals Distribution for Data Usage Prediction")
+plt.xlabel("Residuals")
+plt.ylabel("Frequency")
+plt.show()
 
 # Linear Regression for Screen On Time Prediction
 X = df[['App Usage Time (min/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)', 'Number of Apps Installed']]
@@ -80,7 +87,15 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"Screen On Time Prediction - MSE: {mse:.2f}, RMSE: {np.sqrt(mse):.2f}, R-Squared: {r2:.2f}")
-
+# Residual Analysis for Screen On Time
+residuals = y_test - y_pred
+print("\nResiduals Analysis (Screen On Time Prediction):")
+print(residuals.describe())
+sns.histplot(residuals, kde=True)
+plt.title("Residuals Distribution for Screen On Time Prediction")
+plt.xlabel("Residuals")
+plt.ylabel("Frequency")
+plt.show()
 
 # Logistic Regression for User Behavior Class Prediction
 X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)']]
@@ -96,5 +111,3 @@ accuracy = accuracy_score(y_test, y_pred)
 print(f"User Behavior Class Prediction - Accuracy: {accuracy:.2f}")
 print("Classification Report:")
 print(classification_report(y_test, y_pred))
-
-
