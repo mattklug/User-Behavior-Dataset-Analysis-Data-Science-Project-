@@ -8,7 +8,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import mean_squared_error, r2_score, classification_report, accuracy_score
 from sklearn.preprocessing import PolynomialFeatures, StandardScaler
 
@@ -24,6 +24,10 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"App Usage Time Prediction - MSE: {mse:.2f}, RMSE: {np.sqrt(mse):.2f}, R-Squared: {r2:.2f}")
+# K-fold cross-validation
+cv_mse = -cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
+cv_r2 = cross_val_score(model, X, y, cv=5, scoring='r2')
+print(f"App Usage Time Cross-Validated MSE: {np.mean(cv_mse):.2f}, Cross-Validated R-Squared: {np.mean(cv_r2):.2f}")
 # Residual Analysis for App Usage Time
 residuals = y_test - y_pred
 print("\nResiduals Analysis (App Usage Time Prediction):")
@@ -46,6 +50,10 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"Battery Drain Prediction - MSE: {mse:.2f}, R-Squared: {r2:.2f}")
+# K-fold cross-validation
+cv_mse = -cross_val_score(model, X_poly, y, cv=5, scoring='neg_mean_squared_error')
+cv_r2 = cross_val_score(model, X_poly, y, cv=5, scoring='r2')
+print(f"Battery Drain Cross-Validated MSE: {np.mean(cv_mse):.2f}, Cross-Validated R-Squared: {np.mean(cv_r2):.2f}")
 # Residual Analysis for Battery Drain
 residuals = y_test - y_pred
 print("\nResiduals Analysis (Battery Drain Prediction):")
@@ -67,6 +75,10 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"Data Usage Prediction - MSE: {mse:.2f}, R-Squared: {r2:.2f}")
+# K-fold cross-validation
+cv_mse = -cross_val_score(model, X_poly, y, cv=5, scoring='neg_mean_squared_error')
+cv_r2 = cross_val_score(model, X_poly, y, cv=5, scoring='r2')
+print(f"Data Usage Cross-Validated MSE: {np.mean(cv_mse):.2f}, Cross-Validated R-Squared: {np.mean(cv_r2):.2f}")
 # Residual Analysis for Data Usage
 residuals = y_test - y_pred
 print("\nResiduals Analysis (Data Usage Prediction):")
@@ -87,6 +99,10 @@ y_pred = model.predict(X_test)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 print(f"Screen On Time Prediction - MSE: {mse:.2f}, RMSE: {np.sqrt(mse):.2f}, R-Squared: {r2:.2f}")
+# K-fold cross-validation
+cv_mse = -cross_val_score(model, X, y, cv=5, scoring='neg_mean_squared_error')
+cv_r2 = cross_val_score(model, X, y, cv=5, scoring='r2')
+print(f"Screen On Time Cross-Validated MSE: {np.mean(cv_mse):.2f}, Cross-Validated R-Squared: {np.mean(cv_r2):.2f}")
 # Residual Analysis for Screen On Time
 residuals = y_test - y_pred
 print("\nResiduals Analysis (Screen On Time Prediction):")
@@ -109,5 +125,8 @@ model.fit(X_train, y_train)
 y_pred = model.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"User Behavior Class Prediction - Accuracy: {accuracy:.2f}")
+# K-fold cross-validation for accuracy
+cv_accuracy = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+print(f"User Behavior Class Cross-Validated Accuracy: {np.mean(cv_accuracy):.2f}")
 print("Classification Report:")
 print(classification_report(y_test, y_pred))
