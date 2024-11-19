@@ -1,6 +1,6 @@
 # Classification Analysis
-# Script contains predictive modeling by means of logistic regression, and decision trees.
-# Current able predictions - User Behavior Class
+# Script contains predictive modeling by means of logistic regression, decision trees, random forest
+# Current able predictions - User Behavior Class, Operating System
 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -52,9 +52,9 @@ feature_importance = pd.Series(dt_model.feature_importances_, index=X.columns)
 feature_importance.sort_values(ascending=False).plot(kind='bar', figsize=(10, 6), title="Feature Importance")
 plt.show()
 
-# Random Forest method for Operating System 
+# Random Forest for Operating System 
 X = df[['App Usage Time (min/day)', 'Screen On Time (hours/day)', 'Battery Drain (mAh/day)', 'Data Usage (MB/day)']]
-y = df['Operating System']  # 0 and 1 are OS categories
+y = df['Operating System']
 smote = SMOTE(random_state=42)
 X_resampled, y_resampled = smote.fit_resample(X, y)
 X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=0.3, random_state=42)
@@ -68,4 +68,17 @@ print(classification_report(y_test, y_pred))
 cv_scores = cross_val_score(forest_model, X_resampled, y_resampled, cv=5, scoring='accuracy')
 print(f"Cross-Validated Accuracy Scores: {cv_scores}")
 print(f"Mean Cross-Validated Accuracy: {np.mean(cv_scores):.2f}")
+feature_importances = forest_model.feature_importances_
+features = X.columns
+importance_df = pd.DataFrame({'Feature': features, 'Importance': feature_importances})
+importance_df = importance_df.sort_values(by='Importance', ascending=False)
+print("\nFeature Importances:")
+print(importance_df)
+plt.figure(figsize=(10, 6))
+sns.barplot(x=importance_df['Importance'], y=importance_df['Feature'])
+plt.title("Feature Importance")
+plt.xlabel("Importance")
+plt.ylabel("Feature")
+plt.show()
+
 
